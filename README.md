@@ -10,20 +10,23 @@ Monitor your FiveM server console for errors and send them directly to a Discord
   pip install requests
 
 
-1) Installation
-git clone https://github.com/korivash/fivem-error-monitor.git
-cd fivem-error-monitor
+ 1) Installation
+- git clone https://github.com/korivash/fivem-error-monitor.git
+- cd fivem-error-monitor
 
-2) Configuration:
-Open the monitor_fivem.py script in a text editor. Modify the following lines:
+ 2) Configuration:
+- Open the monitor_fivem.py script in a text editor. Modify the following lines:
+```bash
 FIVEM_SERVER_EXECUTABLE_PATH = 'path_to_your_FXServer_executable'
 DISCORD_WEBHOOK_URL = 'your_discord_webhook_url'
+```
+```bash
 Replace path_to_your_FXServer_executable with the path to your FiveM server's executable (FXServer.exe). Replace your_discord_webhook_url with the webhook URL from your Discord server.
+```
+- 3) Run the Script:
+- python monitor_fivem.py
 
-3) Run the Script:
-python monitor_fivem.py
-
-Usage
+# Usage
 1)Start the Monitor:
 Every time you want to run your FiveM server and monitor it for errors, simply run the monitor_fivem.py script.
 
