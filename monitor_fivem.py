@@ -1,37 +1,50 @@
 import requests
 import subprocess
 import datetime
+import re
 
 # Configuration
 FIVEM_SERVER_EXECUTABLE_PATH = ''
 DISCORD_WEBHOOK_URL = ''
 
-import datetime
+
+def strip_ansi_escape_codes(text):
+    """Remove ANSI escape codes from a string."""
+    ansi_escape = re.compile(r'\x1B(?:[@-Z\\-_]|\[[0-?]*[ -/]*[@-~])')
+    return ansi_escape.sub('', text)
 
 def send_to_discord(message):
     """Send a developer-friendly embed message to the Discord webhook."""
-  
-    if len(message) > 2048:
-        message = message[:2045] + "..."
-
+    # Remove ANSI escape codes
+    clean_message = strip_ansi_escape_codes(message)
     
-    if ":" in message:
-        script_name = message.split(":", 1)[0]
-        message = f"**{script_name}:** {message[len(script_name)+1:]}"
+    # Truncate message if it's too long for an embed description
+    if len(clean_message) > 1024:
+        clean_message = clean_message[:1021] + "..."
 
-    
-    formatted_message = f"```{message}```"
+    # Extract script name and error details (assuming it's followed by a colon)
+    parts = clean_message.split(":", 1)
+    if len(parts) > 1:
+        script_name, error_detail = parts
+    else:
+        script_name = "Unknown Script"
+        error_detail = clean_message
 
     data = {
         "embeds": [{
-            "title": "FiveM Server Error",
-            "description": formatted_message,
+            "title": "Error Detected",
+            "description": "An error was detected in the FiveM server console.",
             "color": 0xff0000,  # Red color for errors
             "fields": [
                 {
-                    "name": "Error Logs",
-                    "value": "servername",  # Replace with your server name or identifier
-                    "inline": True
+                    "name": "Script",
+                    "value": f"`{script_name.strip()}`",
+                    "inline": False
+                },
+                {
+                    "name": "Error Detail",
+                    "value": f"`{error_detail.strip()}`",
+                    "inline": False
                 }
             ],
             "footer": {
@@ -46,12 +59,13 @@ def send_to_discord(message):
         print("Response content:", response.text)
 
 
+
 def monitor_fivem_server():
     """Monitor the FiveM server console for errors and send them to Discord."""
     process = subprocess.Popen(FIVEM_SERVER_EXECUTABLE_PATH, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, universal_newlines=True, encoding='utf-8', errors='replace')
     for line in iter(process.stdout.readline, ''):
-        print(line, end='')  
-        if "error" in line.lower():  
+        print(line, end='')  # Display the full console
+        if "error" in line.lower():  # Simple error detection, you can refine this
             send_to_discord(line)
 
 if __name__ == "__main__":
