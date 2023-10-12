@@ -27,11 +27,11 @@ Replace path_to_your_FXServer_executable with the path to your FiveM server's ex
 - python monitor_fivem.py
 
 # Usage
-1)Start the Monitor:
+1) Start the Monitor:
 Every time you want to run your FiveM server and monitor it for errors, simply run the monitor_fivem.py script.
 
-2)View Errors in Discord:
+2) View Errors in Discord:
 When the script detects an error in the FiveM server console, it will send a detailed embed message to the Discord channel associated with the webhook. This embed will contain the error message, a timestamp, and other relevant details.
 
-3)Stop the Monitor:
+3) Stop the Monitor:
 To stop the monitor, simply press CTRL+C in the terminal where the script is running.
