@@ -37,11 +37,6 @@ def send_to_discord(message):
             "color": 0xff0000,  # Red color for errors
             "fields": [
                 {
-                    "name": "Script",
-                    "value": f"`{script_name.strip()}`",
-                    "inline": False
-                },
-                {
                     "name": "Error Detail",
                     "value": f"`{error_detail.strip()}`",
                     "inline": False
