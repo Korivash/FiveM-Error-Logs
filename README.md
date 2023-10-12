@@ -11,7 +11,7 @@ Monitor your FiveM server console for errors and send them directly to a Discord
 
 
  1) Installation
-- git clone https://github.com/korivash/fivem-error-monitor.git
+- git clone https://github.com/korivash/FiveM-Error-Logs.git
 - cd fivem-error-monitor
 
  2) Configuration:
