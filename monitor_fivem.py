@@ -2,11 +2,14 @@ import requests
 import subprocess
 import datetime
 import re
+import os 
+
+# Change the console color to green text on a black background
+os.system('color 0A')
 
 # Configuration
 FIVEM_SERVER_EXECUTABLE_PATH = ''
 DISCORD_WEBHOOK_URL = ''
-
 
 def strip_ansi_escape_codes(text):
     """Remove ANSI escape codes from a string."""
@@ -15,14 +18,13 @@ def strip_ansi_escape_codes(text):
 
 def send_to_discord(message):
     """Send a developer-friendly embed message to the Discord webhook."""
-    # Remove ANSI escape codes
     clean_message = strip_ansi_escape_codes(message)
     
-    # Truncate message if it's too long for an embed description
+   
     if len(clean_message) > 1024:
         clean_message = clean_message[:1021] + "..."
 
-    # Extract script name and error details (assuming it's followed by a colon)
+  
     parts = clean_message.split(":", 1)
     if len(parts) > 1:
         script_name, error_detail = parts
@@ -59,8 +61,8 @@ def monitor_fivem_server():
     """Monitor the FiveM server console for errors and send them to Discord."""
     process = subprocess.Popen(FIVEM_SERVER_EXECUTABLE_PATH, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, universal_newlines=True, encoding='utf-8', errors='replace')
     for line in iter(process.stdout.readline, ''):
-        print(line, end='')  # Display the full console
-        if "error" in line.lower():  # Simple error detection, you can refine this
+        print(line, end='')  
+        if "error" in line.lower():  
             send_to_discord(line)
 
 if __name__ == "__main__":
