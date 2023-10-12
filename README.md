@@ -2,6 +2,9 @@
 
 Monitor your FiveM server console for errors and send them directly to a Discord channel using webhooks. This tool helps server administrators get real-time notifications of issues, making debugging and server management more efficient.
 
+# NOTE 
+- This is not a FiveM Script, it is a python script that will run your FiveM server and check the console for errors.
+
 ## Prerequisites
 
 - Python 3.x installed on the machine where the FiveM server runs.
