@@ -35,3 +35,6 @@ When the script detects an error in the FiveM server console, it will send a det
 
 3) Stop the Monitor:
 To stop the monitor, simply press CTRL+C in the terminal where the script is running.
+
+
+# Please Leave a Star if you download 
