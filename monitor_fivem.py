@@ -37,24 +37,18 @@ def send_to_discord(message):
     """Send a developer-friendly embed message to the Discord webhook."""
     global sent_errors  
 
-    
     clean_message = strip_ansi_escape_codes(message)
 
-    
     if clean_message in sent_errors:
         return  
 
-    
     if len(clean_message) > 1024:
         clean_message = clean_message[:1021] + "..."
 
-    
     script_name, error_detail = extract_error_details(clean_message)
 
-    
     uptime = datetime.datetime.now() - datetime.datetime.fromtimestamp(os.path.getctime(FIVEM_SERVER_EXECUTABLE_PATH))
 
-    
     if "critical" in error_detail.lower():
         embed_color = 0xff0000  # Critical: Red
     elif "warning" in error_detail.lower():
@@ -64,10 +58,15 @@ def send_to_discord(message):
 
     data = {
         "embeds": [{
-            "title": f"**Error in {script_name}**",  # Bold the title
+            "title": "FiveM Server Error",  
             "description": "An error was detected in the FiveM server console.",
             "color": embed_color,  # Color based on error type
             "fields": [
+                {
+                    "name": "Script Name",
+                    "value": f"**{script_name}**",  # Bold the script name for highlighting
+                    "inline": False
+                },
                 {
                     "name": "Error Detail",  
                     "value": f"```{error_detail.strip()}```",  
@@ -90,8 +89,8 @@ def send_to_discord(message):
         print(f"Failed to send message to Discord. Status code: {response.status_code}")
         print("Response content:", response.text)
     else:
-        
         sent_errors.add(clean_message)
+
 
 def monitor_fivem_server():
     """Monitor the FiveM server console for errors and send them to Discord."""
