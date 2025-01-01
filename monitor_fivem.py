@@ -14,12 +14,10 @@ DISCORD_WEBHOOK_URL = ''
 sent_errors = set()
 
 def strip_ansi_escape_codes(text):
-    """Remove ANSI escape codes from a string."""
     ansi_escape = re.compile(r'\x1B(?:[@-Z\\-_]|\[[0-?]*[ -/]*[@-~])')
     return ansi_escape.sub('', text)
 
 def extract_error_details(clean_message):
-    """Extract script name and error details from the message."""
     pattern = r'\[\s*(.*?)\]\s*(.*)'
     match = re.search(pattern, clean_message)
     if match:
@@ -30,7 +28,6 @@ def extract_error_details(clean_message):
     return "Unknown Script", clean_message
 
 def send_to_discord(message):
-    """Send a developer-friendly embed message to the Discord webhook."""
     global sent_errors
     clean_message = strip_ansi_escape_codes(message)
     if clean_message in sent_errors:
@@ -65,7 +62,6 @@ def send_to_discord(message):
         sent_errors.add(clean_message)
 
 def is_fivem_server_running():
-    """Check if the FiveM server process is running."""
     try:
         result = subprocess.run(['tasklist'], stdout=subprocess.PIPE, text=True)
         return FIVEM_SERVER_EXECUTABLE_PATH in result.stdout
@@ -74,7 +70,6 @@ def is_fivem_server_running():
         return False
 
 def monitor_fivem_server():
-    """Monitor the FiveM server console for errors and send them to Discord."""
     while True:
         try:
             process = subprocess.Popen(
